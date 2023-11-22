@@ -1,8 +1,5 @@
 name: Build and Push Docker image
-on:
-  push:
-    branches:
-    - !master
+on: [push]
 
 env:
   DOCKERFILE_PATH: build/application
