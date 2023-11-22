@@ -3,7 +3,6 @@ on: [push]
 
 env:
   DOCKERFILE_PATH: build/application
-  PR_NUMBER: ${{ github.event.number }}
     
 jobs:
   build-and-publish-image:        
@@ -48,5 +47,5 @@ jobs:
     - name: Build the Docker image and push it
       run: |
         cd $DOCKERFILE_PATH
-        docker build . --tag ghcr.io/${{ github.actor }}/$PR_NUMBER:latest
-        docker push ghcr.io/${{ github.actor }}/$PR_NUMBER:latest      
+        docker build . --tag ghcr.io/${{ github.actor }}/${{ github.event.number }}:latest
+        docker push ghcr.io/${{ github.actor }}/${{ github.event.number }}:latest      
