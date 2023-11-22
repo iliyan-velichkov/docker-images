@@ -3,7 +3,7 @@ on: [push]
 
 env:
   DOCKERFILE_PATH: build/application
-  IMAGE_NAME: dirigible
+  IMAGE_NAME: $GITHUB_REF_NAME
     
 jobs:
   build-and-publish-image:        
