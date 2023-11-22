@@ -6,7 +6,7 @@ env:
   PR_NUMBER: ${{ github.event.number }}
     
 jobs:
-  build:        
+  build-and-publish-image:        
     runs-on: ubuntu-latest
     permissions:
       contents: read
