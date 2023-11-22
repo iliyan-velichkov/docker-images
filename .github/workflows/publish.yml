@@ -3,6 +3,9 @@ on: [push]
 jobs:
   build:        
     runs-on: ${{ matrix.os }}-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         os: [ubuntu]
