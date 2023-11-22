@@ -3,6 +3,7 @@ on: [push]
 
 env:
   DOCKERFILE_PATH: build/application
+  IMAGE_NAME: dirigible
     
 jobs:
   build-and-publish-image:        
@@ -47,5 +48,5 @@ jobs:
     - name: Build the Docker image and push it
       run: |
         cd $DOCKERFILE_PATH
-        docker build . --tag ghcr.io/${{ github.actor }}/${{ github.event.number }}:latest
-        docker push ghcr.io/${{ github.actor }}/${{ github.event.number }}:latest      
+        docker build . --tag ghcr.io/${{ github.actor }}/$IMAGE_NAME:latest
+        docker push ghcr.io/${{ github.actor }}/$IMAGE_NAME:latest      
