@@ -29,6 +29,9 @@ jobs:
       run: npm i -g esbuild
     - name: Install TypeScript compiler
       run: npm i -g typescript
+    - name: Give Permissions
+      run: |
+        chmod 777 -R .
     - name: Maven Build
       run: mvn -T 1C clean install -Dmaven.test.skip=true -DskipTests -Dmaven.javadoc.skip=true -Dlicense.skip=true -U
     - name: Login to GitHub Container Registry
