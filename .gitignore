@@ -1,0 +1,32 @@
+# folders
+dist/
+.settings/
+target/
+dirigible_local/
+bin/
+.idea
+.history
+.vscode
+node_modules
+**/build
+build/application/dirigible
+!/build
+
+# files
+.DS_Store
+.project
+.classpath
+*.bak
+*.class
+*.jar
+derby.log
+*.versionsBackup
+*.fpr
+*.iml
+*.factorypath
+*.log
+dependency-reduced-pom.xml
+host.ser
+package.json
+package-lock.json
+**/logs

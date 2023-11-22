@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="page" ng-controller="PageController">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Fake favicon to silent console errors and not waste a get request -->
+    <link rel="icon" sizes="any" href="data:;base64,iVBORw0KGgo=">
+    <!-- Title directive -->
+    <title>HTML5 (AngularJS)</title>
+    <!-- IDE Core UI -->
+    <script type="text/javascript" src="/services/js/resources-core/services/loader.js?id=ide-view-js"></script>
+    <link type="text/css" rel="stylesheet" href="/services/js/resources-core/services/loader.js?id=ide-view-css" />
+    <theme></theme>
+  </head>
+
+  <body class="dg-vbox">
+    <fd-busy-indicator-extended class="dg-fill-parent" ng-hide="state.error || !state.isBusy" dg-size="l">
+      {{state.busyText}}
+    </fd-busy-indicator-extended>
+    <fd-toolbar has-title="true" ng-show="!state.error && !state.isBusy">
+      <fd-toolbar-title>Explore:</fd-toolbar-title>
+      <fd-select dg-size="compact" ng-model="explore.value">
+        <fd-option text="Customers" value="'customers'"></fd-option>
+        <fd-option text="Employees" value="'employees'"></fd-option>
+        <fd-option text="Products" value="'products'"></fd-option>
+      </fd-select>
+    </fd-toolbar>
+    <fd-scrollbar class="dg-full-height" ng-show="!state.error && !state.isBusy">
+      <table fd-table display-mode="compact" outer-borders="none" class="dg-list-border-bottom"
+        ng-show="explore.value === 'customers'">
+        <thead fd-table-header sticky="true">
+          <tr fd-table-row>
+            <th fd-table-header-cell>Company</th>
+            <th fd-table-header-cell>City</th>
+            <th fd-table-header-cell>Address</th>
+          </tr>
+        </thead>
+        <tbody fd-table-body>
+          <tr fd-table-row ng-repeat="customer in customers" hoverable="false" activable="false">
+            <td fd-table-cell>{{customer.CompanyName}}</td>
+            <td fd-table-cell>{{customer.City}}</td>
+            <td fd-table-cell>{{customer.Address}}</td>
+          </tr>
+          <tr ng-if="customers.length === 0" fd-table-row>
+            <td fd-table-cell no-data="true">No data</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table fd-table display-mode="compact" outer-borders="none" class="dg-list-border-bottom"
+        ng-show="explore.value === 'employees'">
+        <thead fd-table-header sticky="true">
+          <tr fd-table-row>
+            <th fd-table-header-cell>Name</th>
+            <th fd-table-header-cell>Title</th>
+            <th fd-table-header-cell>Country</th>
+          </tr>
+        </thead>
+        <tbody fd-table-body>
+          <tr fd-table-row ng-repeat="employee in employees" hoverable="false" activable="false">
+            <td fd-table-cell>{{employee.FirstName}} {{employee.LastName}}</td>
+            <td fd-table-cell>{{employee.Title}}</td>
+            <td fd-table-cell>{{employee.Country}}</td>
+          </tr>
+          <tr ng-if="employees.length === 0" fd-table-row>
+            <td fd-table-cell no-data="true">No data</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table fd-table display-mode="compact" outer-borders="none" class="dg-list-border-bottom"
+        ng-show="explore.value === 'products'">
+        <thead fd-table-header sticky="true">
+          <tr fd-table-row>
+            <th fd-table-header-cell>Name</th>
+            <th fd-table-header-cell>Unit Price</th>
+            <th fd-table-header-cell>Quantity Per Unit</th>
+          </tr>
+        </thead>
+        <tbody fd-table-body>
+          <tr fd-table-row ng-repeat="product in products" hoverable="false" activable="false">
+            <td fd-table-cell>{{product.ProductName}}</td>
+            <td fd-table-cell>${{product.UnitPrice}}</td>
+            <td fd-table-cell>{{product.QuantityPerUnit}}</td>
+          </tr>
+          <tr ng-if="products.length === 0" fd-table-row>
+            <td fd-table-cell no-data="true">No data</td>
+          </tr>
+        </tbody>
+      </table>
+    </fd-scrollbar>
+    <fd-message-page glyph="sap-icon--error" ng-if="state.error">
+      <fd-message-page-title>Editor encounterd an error!</fd-message-page-title>
+      <fd-message-page-subtitle>{{errorMessage}}</fd-message-page-subtitle>
+    </fd-message-page>
+
+    <script type="text/javascript">
+      angular.module('page', ['ideUI', 'ideView'])
+        .controller('PageController', function ($scope, $http) {
+            $scope.state = {
+                isBusy: true,
+                error: false,
+                busyText: "Fetching data from server...",
+            };
+            $scope.explore = { value: 'customers' };
+
+            $http.get('https://services.odata.org/V4/Northwind/Northwind.svc/Customers', { disableInterceptors: true })
+                .then(function (data) {
+                    $scope.customers = data.data.value;
+                    $scope.state.isBusy = false;
+                }, function (response) {
+                    console.error(response);
+                    $scope.state.error = true;
+                    $scope.errorMessage = "Unable to load customer data";
+                });
+
+            $http.get('https://services.odata.org/V4/Northwind/Northwind.svc/Employees', { disableInterceptors: true })
+                .then(function (data) {
+                    $scope.employees = data.data.value;
+                    $scope.state.isBusy = false;
+                }, function (response) {
+                    console.error(response);
+                    $scope.state.error = true;
+                    $scope.errorMessage = "Unable to load employees data";
+                });
+
+            $http.get('https://services.odata.org/V4/Northwind/Northwind.svc/Products', { disableInterceptors: true })
+                .then(function (data) {
+                    $scope.products = data.data.value;
+                    $scope.state.isBusy = false;
+                }, function (response) {
+                    console.error(response);
+                    $scope.state.error = true;
+                    $scope.errorMessage = "Unable to load product data";
+                });
+        });
+    </script>
+  </body>
+
+</html>
