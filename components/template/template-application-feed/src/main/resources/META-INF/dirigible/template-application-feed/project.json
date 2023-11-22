@@ -1,0 +1,8 @@
+{
+    "guid": "template-application-feed",
+    "dependencies": [
+        {
+            "guid": "template-application-dao"
+        }
+    ]
+}
