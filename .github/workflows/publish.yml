@@ -1,7 +1,5 @@
 name: Build and Push Docker image
-
 on: [push]
-
 jobs:
   build:        
     runs-on: ${{ matrix.os }}-latest
