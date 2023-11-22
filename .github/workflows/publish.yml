@@ -3,15 +3,17 @@ on:
   push:
     branches:
     - !master
+
+env:
+  DOCKERFILE_PATH: build/application
+  PR_NUMBER: ${{ github.event.number }}
+    
 jobs:
   build:        
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        os: [ubuntu]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -48,6 +50,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image and push it
       run: |
-        cd build/application
-        docker build . --tag ghcr.io/${{ github.actor }}/dirigible:latest
-        docker push ghcr.io/${{ github.actor }}/dirigible:latest      
+        cd $DOCKERFILE_PATH
+        docker build . --tag ghcr.io/${{ github.actor }}/$PR_NUMBER:latest
+        docker push ghcr.io/${{ github.actor }}/$PR_NUMBER:latest      
