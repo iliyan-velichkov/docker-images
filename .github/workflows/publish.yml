@@ -1,6 +1,8 @@
 name: Build and Push Docker image
-on: [push]
-
+on:
+  push:
+    branches-ignore:
+      - master
 env:
   DOCKERFILE_PATH: build/application
   IMAGE_NAME: ${{ github.head_ref || github.ref_name }} 
