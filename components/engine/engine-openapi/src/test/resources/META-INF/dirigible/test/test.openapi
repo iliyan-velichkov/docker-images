@@ -1,0 +1,34 @@
+openapi: 3.0.1
+info:
+  title: Eclipse Dirigible
+  description: Eclipse Dirigible API of the REST services provided by the applications.
+  termsOfService: https://www.dirigible.io/
+  contact:
+    name: Eclipse Dirigible
+    url: https://www.dirigible.io/
+    email: dirigible-dev@eclipse.org
+  license:
+    name: Eclipse Public License - v 2.0
+    url: https://www.eclipse.org/legal/epl-v20.html
+  version: 8.0.0
+servers:
+- url: /services/js
+paths:
+  /test/openapi/api.mjs/hello-world:
+    get:
+      description: Returns Hello World message
+      responses:
+        200:
+          description: Hello World response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HelloWorldModel"
+
+components:
+  schemas:
+    HelloWorldModel:
+      type: object
+      properties:
+        status:
+          type: string

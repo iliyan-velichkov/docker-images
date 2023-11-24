@@ -1,0 +1,6 @@
+{
+	"name": "ORDERS_VIEW",
+	"type": "VIEW",
+	"query": "SELECT * FROM ORDERS",
+	"dependencies": "table:/test-project/tables/orders.table:ORDERS"
+}
